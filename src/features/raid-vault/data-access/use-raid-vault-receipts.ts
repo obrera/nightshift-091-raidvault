@@ -3,6 +3,9 @@ import { useCallback, useMemo, useSyncExternalStore } from 'react'
 import type { RaidReceipt } from '@/features/raid-vault/util/raid-vault-types'
 
 const STORAGE_KEY = 'raidvault091.receipts'
+const EMPTY_RECEIPTS: RaidReceipt[] = []
+let cachedReceiptValue: null | string = null
+let cachedReceipts: RaidReceipt[] = EMPTY_RECEIPTS
 
 export function useRaidVaultReceipts() {
   const receipts = useSyncExternalStore(subscribe, readReceipts, () => [])
@@ -19,16 +22,25 @@ export function useRaidVaultReceipts() {
 
 function readReceipts(): RaidReceipt[] {
   if (typeof window === 'undefined') {
-    return []
+    return EMPTY_RECEIPTS
   }
   const value = window.localStorage.getItem(STORAGE_KEY)
   if (!value) {
-    return []
+    cachedReceiptValue = null
+    cachedReceipts = EMPTY_RECEIPTS
+    return cachedReceipts
+  }
+  if (value === cachedReceiptValue) {
+    return cachedReceipts
   }
   try {
-    return JSON.parse(value) as RaidReceipt[]
+    cachedReceiptValue = value
+    cachedReceipts = JSON.parse(value) as RaidReceipt[]
+    return cachedReceipts
   } catch {
-    return []
+    cachedReceiptValue = value
+    cachedReceipts = EMPTY_RECEIPTS
+    return cachedReceipts
   }
 }
 

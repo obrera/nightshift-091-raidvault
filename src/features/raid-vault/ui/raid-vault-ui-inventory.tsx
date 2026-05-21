@@ -4,7 +4,6 @@ import type { RaidInventoryItem, RaidItemSlot } from '@/features/raid-vault/data
 import type { RaidKit } from '@/features/raid-vault/util/raid-vault-types'
 
 import { Badge } from '@/core/ui/badge'
-import { Button } from '@/core/ui/button'
 import { formatSlot } from '@/features/raid-vault/util/raid-vault-calculations'
 
 export function RaidVaultUiInventory({
@@ -64,9 +63,14 @@ export function RaidVaultUiInventory({
                         <span>RSK {item.risk}</span>
                       </span>
                     </span>
-                    <Button aria-label={`Select ${item.name}`} size="icon" variant={selected ? 'default' : 'secondary'}>
-                      {selected ? <Check /> : <PackagePlus />}
-                    </Button>
+                    <span
+                      aria-label={`Select ${item.name}`}
+                      className={`inline-flex size-8 items-center justify-center rounded-md ${
+                        selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                      }`}
+                    >
+                      {selected ? <Check className="size-4" /> : <PackagePlus className="size-4" />}
+                    </span>
                   </button>
                 )
               })}

@@ -62,7 +62,7 @@ export function SolanaUiWalletDialog({ className }: { className?: string }) {
             <DialogDescription>Connect a wallet on Solana to continue.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            {sortedWallets.length > 0 ? (
+            {open && sortedWallets.length > 0 ? (
               sortedWallets.map((availableWallet) => (
                 <WalletDialogWalletItem
                   key={availableWallet.name}
