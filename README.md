@@ -17,10 +17,14 @@ The NFT does product work: it is the access and provenance key for a locked raid
 - Minting is client-side and wallet-signed. There is no server mint path.
 - The connected wallet is the payer, owner, and update authority for the MPL Core asset.
 - A generated asset keypair signs as the new MPL Core asset account.
-- Metadata is encoded as a data URI and includes kit hash, run ID, owner, score, and slot attributes.
+- The on-chain URI is a short first-party `/metadata/<run>.json` URL so the Solana message stays under the raw 1232-byte limit. The Bun server serves matching JSON and SVG art routes.
 - The app does not import `@solana/web3.js`, `@solana/wallet-adapter-react`, or wallet-standard packages directly.
 
-No devnet mint proof is recorded yet; the shipped UI exposes the wallet-signed devnet mint flow and requires a funded connected wallet.
+Latest devnet proof:
+
+- Asset: `8uULYg182MynzYTbJa5ZzphW3oXQFcKZCsAATVsgfuAY`
+- Tx: `DqKFw7wWkbmVMCz9YrxEbNKmpizSzx6vEJXhTVEwNDnBCLZWW9ryWjLE6d7Bv95y6r9RCmTTzXLnsTowMvE5iWU`
+- Message size: `527` bytes
 
 ## Run Locally
 
@@ -38,6 +42,7 @@ bun run build
 bun run lint
 bun run check-types
 bun run ci
+bun run proof:mint
 ```
 
 ## Challenge Reference
@@ -52,3 +57,5 @@ bun run ci
 ## Implementation Notes
 
 The app follows `src/features/raid-vault/{data-access,feature,ui,util}` with thin router entrypoints. It was scaffolded from live create-seed. The initial temp scaffold dependency install failed because `--skip-git` caused the template `lefthook install` prepare step to run outside a Git repo; dependencies installed cleanly after copying the scaffold into this repository Git root.
+
+The production container runs `server.ts` with Bun. The server only serves static assets, health checks, and first-party metadata/art routes; it does not mint or sign transactions.

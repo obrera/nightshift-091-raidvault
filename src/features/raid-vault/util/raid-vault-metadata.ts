@@ -13,8 +13,42 @@ export async function createKitHash(owner: string, runId: string, selectedItems:
     .join('')
 }
 
-export function createMetadataUri(metadata: RaidVaultMetadata) {
-  return `data:application/json;utf8,${encodeURIComponent(JSON.stringify(metadata))}`
+export function createMetadataSearchParams({
+  kitHash,
+  owner,
+  selectedItems,
+}: {
+  kitHash: string
+  owner: string
+  selectedItems: RaidInventoryItem[]
+}) {
+  const params = new URLSearchParams()
+
+  params.set('items', selectedItems.map((item) => item.id).join(','))
+  params.set('kit', kitHash)
+  params.set('owner', owner)
+
+  return params.toString()
+}
+
+export function createMetadataUri({
+  kitHash,
+  origin,
+  owner,
+  runId,
+  selectedItems,
+}: {
+  kitHash: string
+  origin: string
+  owner: string
+  runId: string
+  selectedItems: RaidInventoryItem[]
+}) {
+  return `${origin.replace(/\/$/, '')}/metadata/${encodeURIComponent(runId)}.json?${createMetadataSearchParams({
+    kitHash,
+    owner,
+    selectedItems,
+  })}`
 }
 
 export function createRaidMetadata({

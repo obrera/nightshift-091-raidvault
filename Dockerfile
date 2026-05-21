@@ -5,8 +5,12 @@ RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
 RUN bun run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-RUN sed -i 's/listen       80;/listen       3000;/' /etc/nginx/conf.d/default.conf && \
-  sed -i 's/listen  \\[::\\]:80;/listen  [::]:3000;/' /etc/nginx/conf.d/default.conf
+FROM oven/bun:1
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/server.ts ./server.ts
+COPY --from=build /app/src ./src
 EXPOSE 3000
+CMD ["bun", "server.ts"]

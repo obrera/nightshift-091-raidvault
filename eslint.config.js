@@ -63,6 +63,15 @@ export default defineConfig([
     },
   },
   {
+    files: ['server.ts', 'scripts/**/*.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        Bun: 'readonly',
+      },
+    },
+  },
+  {
     extends: ['json/recommended', eslintPluginPrettierRecommended],
     files: ['**/*.json'],
     ignores: ['**/tsconfig*.json'],

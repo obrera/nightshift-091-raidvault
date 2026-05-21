@@ -1,4 +1,3 @@
-import { getCreateV1Instruction } from '@obrera/mpl-core-kit-lib/generated'
 import {
   address,
   appendTransactionMessageInstruction,
@@ -22,13 +21,8 @@ import type { RaidInventoryItem } from '@/features/raid-vault/data-access/raid-v
 import type { RaidReceipt, RaidScore } from '@/features/raid-vault/util/raid-vault-types'
 import type { SolanaClient } from '@/solana/data-access/solana-client'
 
-import {
-  createKitHash,
-  createMetadataUri,
-  createRaidMetadata,
-  createRunId,
-  createVaultArtUri,
-} from '@/features/raid-vault/util/raid-vault-metadata'
+import { getRaidVaultCreateInstruction } from '@/features/raid-vault/data-access/raid-vault-mint'
+import { createKitHash, createMetadataUri, createRunId } from '@/features/raid-vault/util/raid-vault-metadata'
 
 export function useRaidVaultMint({ account, client }: { account: UiWalletAccount; client: SolanaClient }) {
   const transactionSigner = useWalletUiSigner({ account })
@@ -38,16 +32,13 @@ export function useRaidVaultMint({ account, client }: { account: UiWalletAccount
       const asset = await generateKeyPairSigner()
       const runId = createRunId(account.address, selectedItems)
       const kitHash = await createKitHash(account.address, runId, selectedItems)
-      const artUri = createVaultArtUri({ kitHash, score, selectedItems })
-      const metadata = createRaidMetadata({
-        artUri,
+      const metadataUri = createMetadataUri({
         kitHash,
+        origin: globalThis.location?.origin ?? 'https://raidvault091.colmena.dev',
         owner: account.address,
         runId,
-        score,
         selectedItems,
       })
-      const metadataUri = createMetadataUri(metadata)
       const { value: latestBlockhash } = await client.rpc.getLatestBlockhash({ commitment: 'confirmed' }).send()
       const message = pipe(
         createTransactionMessage({ version: 0 }),
@@ -55,12 +46,11 @@ export function useRaidVaultMint({ account, client }: { account: UiWalletAccount
         (transactionMessage) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, transactionMessage),
         (transactionMessage) =>
           appendTransactionMessageInstruction(
-            getCreateV1Instruction({
+            getRaidVaultCreateInstruction({
               asset,
               name: `Raid Vault Key ${runId}`,
               owner: address(account.address),
               payer: transactionSigner,
-              updateAuthority: address(account.address),
               uri: metadataUri,
             }),
             transactionMessage,

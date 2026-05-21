@@ -9,7 +9,7 @@
 - Date: 2026-05-21 UTC
 - Agent/model: Codex GPT-5 coding agent
 - Started: 2026-05-21T01:03:00Z
-- Last local verification: 2026-05-21T01:10:54Z
+- Last local verification: 2026-05-21T09:42:00Z
 
 ## NFT Use Case
 
@@ -29,8 +29,10 @@
 - No direct app import of `@solana/web3.js`, wallet-adapter-react, or wallet-standard packages: complete
 - No Node Buffer in app code: complete
 - Product-critical wallet mint/commit flow: complete
+- Short on-chain metadata URI with first-party JSON/SVG routes: complete
 - User capabilities: inventory assembly, readiness scoring, generated metadata/art preview, wallet-signed MPL Core mint, local receipt history, receipt verifier
 - Local build: passing
+- Devnet proof mint: passing
 
 ## Log
 
@@ -42,7 +44,13 @@
 - 2026-05-21T01:09:00Z: Removed template direct mobile wallet-standard adapter import/dependency so app wallet access stays through `@wallet-ui/react`.
 - 2026-05-21T01:10:54Z: `bun run build` passed.
 - 2026-05-21T01:14:09Z: Created Dokploy project/compose/domain for `raidvault091.colmena.dev`; adjusted Nginx container to listen on Dokploy's selected internal port 3000.
+- 2026-05-21T09:32:00Z: Bee caught live wallet error `-32602`; decoded as `VersionedMessage too large: 12572 bytes (max raw 1232)`.
+- 2026-05-21T09:37:00Z: Replaced full metadata/image data URI in the MPL Core create instruction with a short first-party metadata URL and added a Bun runtime server for `/metadata/*.json` and `/metadata/*.svg`.
+- 2026-05-21T09:42:00Z: Verified `lint:fix`, `check-types`, `build`, Docker build, Docker health/metadata routes, and `bun run proof:mint`.
 
 ## Devnet Proof
 
-No live devnet asset or transaction signature has been recorded yet. The app exposes the wallet-signed devnet mint flow, but this worker did not have an interactive funded browser wallet session for a real mint.
+- Asset: `8uULYg182MynzYTbJa5ZzphW3oXQFcKZCsAATVsgfuAY`
+- Tx: `DqKFw7wWkbmVMCz9YrxEbNKmpizSzx6vEJXhTVEwNDnBCLZWW9ryWjLE6d7Bv95y6r9RCmTTzXLnsTowMvE5iWU`
+- URI: `https://raidvault091.colmena.dev/metadata/rv091-obrE-mpf5viex-coi-aeg-ech-sol-sta.json?items=coil-shotgun%2Caegis-frame%2Cecho-spike%2Csol-cipher%2Cstasis-patch&kit=f730f5b941196ac8ecd6d8214fdebbde95e2cce8878b89fc12c34f3261b4e9c0&owner=obrE1BHvP4EX8PkxPxAJxYfQkgfgCmXyJadQA3yBb7G`
+- Compiled message size: `527` bytes
