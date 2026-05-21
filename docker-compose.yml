@@ -6,5 +6,8 @@ services:
     restart: unless-stopped
 
 networks:
+  default:
+    external: true
+    name: dokploy-network
   dokploy-network:
     external: true
