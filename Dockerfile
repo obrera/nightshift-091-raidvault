@@ -7,4 +7,6 @@ RUN bun run build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
+RUN sed -i 's/listen       80;/listen       3000;/' /etc/nginx/conf.d/default.conf && \
+  sed -i 's/listen  \\[::\\]:80;/listen  [::]:3000;/' /etc/nginx/conf.d/default.conf
+EXPOSE 3000

@@ -41,6 +41,7 @@
 - 2026-05-21T01:07:00Z: Built RaidVault feature structure, inventory data, scoring, metadata generation, receipt storage, verifier, and wallet-signed MPL Core mint hook.
 - 2026-05-21T01:09:00Z: Removed template direct mobile wallet-standard adapter import/dependency so app wallet access stays through `@wallet-ui/react`.
 - 2026-05-21T01:10:54Z: `bun run build` passed.
+- 2026-05-21T01:14:09Z: Created Dokploy project/compose/domain for `raidvault091.colmena.dev`; adjusted Nginx container to listen on Dokploy's selected internal port 3000.
 
 ## Devnet Proof
 
