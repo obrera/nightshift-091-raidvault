@@ -1,4 +1,10 @@
 services:
   app:
     build: .
+    networks:
+      - dokploy-network
     restart: unless-stopped
+
+networks:
+  dokploy-network:
+    external: true
