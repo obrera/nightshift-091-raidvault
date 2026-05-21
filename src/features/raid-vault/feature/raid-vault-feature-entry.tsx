@@ -12,12 +12,12 @@ import { Button } from '@/core/ui/button'
 import { RAID_INVENTORY } from '@/features/raid-vault/data-access/raid-vault-catalog'
 import { useRaidVaultMint } from '@/features/raid-vault/data-access/use-raid-vault-mint'
 import { useRaidVaultReceipts } from '@/features/raid-vault/data-access/use-raid-vault-receipts'
+import { RaidVaultFeatureAssetVerifier } from '@/features/raid-vault/feature/raid-vault-feature-asset-verifier'
 import { RaidVaultUiInventory } from '@/features/raid-vault/ui/raid-vault-ui-inventory'
 import { RaidVaultUiKit } from '@/features/raid-vault/ui/raid-vault-ui-kit'
 import { RaidVaultUiMetadata } from '@/features/raid-vault/ui/raid-vault-ui-metadata'
 import { RaidVaultUiReceipts } from '@/features/raid-vault/ui/raid-vault-ui-receipts'
 import { RaidVaultUiScore } from '@/features/raid-vault/ui/raid-vault-ui-score'
-import { RaidVaultUiVerifier } from '@/features/raid-vault/ui/raid-vault-ui-verifier'
 import { calculateRaidScore, getSelectedItems, isCompleteKit } from '@/features/raid-vault/util/raid-vault-calculations'
 import { useSolanaClient } from '@/solana/data-access/use-solana-client'
 import { SolanaUiWalletDialog } from '@/solana/ui/solana-ui-wallet-dialog'
@@ -122,7 +122,7 @@ export function RaidVaultFeatureEntry() {
             selectedItems={selectedItems}
           />
           <RaidVaultUiReceipts clearReceipts={clearReceipts} receipts={receipts} />
-          <RaidVaultUiVerifier receipts={receipts} />
+          <RaidVaultFeatureAssetVerifier client={client} connectedOwner={account?.address} receipts={receipts} />
         </aside>
       </div>
     </div>

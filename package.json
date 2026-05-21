@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --fix",
     "prepare": "lefthook install",
     "preview": "bun server.ts",
-    "proof:mint": "bun scripts/proof-mint.ts"
+    "proof:mint": "bun scripts/proof-mint.ts",
+    "proof:verify": "bun scripts/proof-verify.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.4.0",

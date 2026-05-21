@@ -11,6 +11,8 @@ Players choose one item for each raid slot: weapon, armor, tool, relic, and supp
 
 The NFT does product work: it is the access and provenance key for a locked raid kit. Ownership of the key proves which wallet committed the exact kit hash, run ID, generated metadata, and devnet asset.
 
+Because Raid Vault Keys are MPL Core assets rather than SPL-token NFTs, some wallet collectible tabs and devnet indexers may not display them. The app includes an on-chain Core verifier that accepts either a RaidVault transaction signature or MPL Core asset address, reads the devnet asset account directly, and checks the decoded owner/update authority.
+
 ## Wallet-Signed Mint Architecture
 
 - The app uses `@wallet-ui/react` for wallet connection and transaction signing.
@@ -25,6 +27,13 @@ Latest devnet proof:
 - Asset: `8uULYg182MynzYTbJa5ZzphW3oXQFcKZCsAATVsgfuAY`
 - Tx: `DqKFw7wWkbmVMCz9YrxEbNKmpizSzx6vEJXhTVEwNDnBCLZWW9ryWjLE6d7Bv95y6r9RCmTTzXLnsTowMvE5iWU`
 - Message size: `527` bytes
+
+Latest verifier proof:
+
+- Asset: `BMg3DM5Fh5bUfTWPdUvgsJi5kV5SWx4gcjVU7f6JVbqE`
+- Tx: `WgJ4jY3kcWhYPEWAwaraW6vRyUcXWWRLTqaLxycw8R9YJ6XxP7cvf5ArK6DRB1LZ6C9xxXq47TGjWjRaYmD48zm`
+- Owner: `ALiC98dw6j47Skrxje3zBN4jTA11w67JRjQRBeZH3BRG`
+- Decoded Core account size: `408` bytes
 
 ## Run Locally
 
@@ -43,6 +52,7 @@ bun run lint
 bun run check-types
 bun run ci
 bun run proof:mint
+bun run proof:verify
 ```
 
 ## Challenge Reference
